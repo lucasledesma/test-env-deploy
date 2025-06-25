@@ -26,10 +26,18 @@ jobs:
     steps:
       - name: Deploy
         run: echo I am deploying! 
+
+  RunTestsDev:
+    name: Run Functional Tests in Dev 
+    needs: [DeployDev]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Deploy
+        run: echo I am testing!         
     
   DeployStaging:
     name: Deploy to Staging 
-    needs: [DeployDev]
+    needs: [RunTestsDev]
     runs-on: ubuntu-latest
     environment: 
       name: Staging
@@ -37,10 +45,18 @@ jobs:
     steps:
       - name: Deploy
         run: echo I am deploying! 
+
+  RunTestsStg:
+    name: Run Functional Tests in Stg 
+    needs: [DeployStaging]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Deploy
+        run: echo I am testing!            
             
   DeployProd:
     name: Deploy to Production 
-    needs: [DeployStaging]
+    needs: [RunTestsStg]
     runs-on: ubuntu-latest
     environment: 
       name: Production
