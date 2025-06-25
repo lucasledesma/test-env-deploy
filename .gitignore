@@ -15,3 +15,6 @@ build/
 *.coverage
 *.eggs
 .vscode/
+style.css
+report.html
+junit*.xml

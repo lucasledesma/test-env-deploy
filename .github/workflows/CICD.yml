@@ -29,8 +29,15 @@ jobs:
       - name: Test
         run: |
             echo I am testing! 
-            pip install pytest
-            pytest
+            pip install pytest pytest-html
+            pytest -s --verbose --html=report.html --junit-xml=junit-report.xml --capture=tee-sys
+      - name: Publish Test Results
+        uses: EnricoMi/publish-unit-test-result-action/linux@v2
+        if: (!cancelled())
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          files: |
+            *.xml            
 
   DeployStaging:
     name: Staging 
