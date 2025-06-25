@@ -13,11 +13,11 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
-      - name: Compile
-        run: echo Hello, world!
+      - name: Build
+        run: echo I am building!
     
   DeployDev:
-    name: Deploy to Dev 
+    name: Development
     needs: [Build]
     runs-on: ubuntu-latest
     environment: 
@@ -26,21 +26,12 @@ jobs:
     steps:
       - name: Deploy
         run: echo I am deploying! 
+      - name: Test
+        run: echo I am testing!            
 
-  RunTestsDev:
-    name: Run Functional Tests in Dev 
-    needs: [DeployDev]
-    runs-on: ubuntu-latest
-    environment: 
-      name: Development
-      url: 'https://agility-dev.b-yond.com/'    
-    steps:
-      - name: Deploy
-        run: echo I am testing!         
-    
   DeployStaging:
-    name: Deploy to Staging 
-    needs: [RunTestsDev]
+    name: Staging 
+    needs: [DeployDev]
     runs-on: ubuntu-latest
     environment: 
       name: Staging
@@ -48,21 +39,12 @@ jobs:
     steps:
       - name: Deploy
         run: echo I am deploying! 
-
-  RunTestsStg:
-    name: Run Functional Tests in Stg 
-    needs: [DeployStaging]
-    runs-on: ubuntu-latest
-    environment: 
-      name: Staging
-      url: 'https://agility-stg.b-yond.com/'    
-    steps:
-      - name: Deploy
-        run: echo I am testing!            
-            
+      - name: Test
+        run: echo I am testing!   
+         
   DeployProd:
-    name: Deploy to Production 
-    needs: [RunTestsStg]
+    name: Production 
+    needs: [DeployStaging]
     runs-on: ubuntu-latest
     environment: 
       name: Production
