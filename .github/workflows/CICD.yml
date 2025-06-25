@@ -37,7 +37,7 @@ jobs:
         with:
           github_token: ${{github.token}}
           files: |
-            *.xml    
+            /home/runner/work/test-env-deploy/test-env-deploy/junit-report.xml   
 
   DeployStaging:
     name: Staging 
