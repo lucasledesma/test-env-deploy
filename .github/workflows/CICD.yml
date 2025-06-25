@@ -35,9 +35,9 @@ jobs:
         uses: EnricoMi/publish-unit-test-result-action/linux@v2
         if: (!cancelled())
         with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
+          github_token: ${{github.token}}
           files: |
-            ./**/*.xml    
+            *.xml    
 
   DeployStaging:
     name: Staging 
