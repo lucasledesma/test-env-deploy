@@ -11,8 +11,7 @@ jobs:
   Build:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
-
+      - uses: actions/checkout@v4
       - name: Build
         run: echo I am building!
     
@@ -26,8 +25,12 @@ jobs:
     steps:
       - name: Deploy
         run: echo I am deploying! 
+      - uses: actions/checkout@v4
       - name: Test
-        run: echo I am testing!            
+        run: |
+            echo I am testing! 
+            pip install pytest
+            pytest
 
   DeployStaging:
     name: Staging 

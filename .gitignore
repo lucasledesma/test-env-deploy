@@ -1,0 +1,17 @@
+.venv/
+*cpython-*
+*.pyc
+*.pyo
+*.pyd
+__pycache__/
+*.pkl
+*.egg-info/
+dist/
+build/
+*.log
+*.db
+*.sqlite3
+*.DS_Store
+*.coverage
+*.eggs
+.vscode/
