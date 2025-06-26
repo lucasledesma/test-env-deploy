@@ -16,6 +16,7 @@ jobs:
         run: echo I am building!
     
   DeployDev:
+    permissions: write-all    
     name: Development
     needs: [Build]
     runs-on: ubuntu-latest
