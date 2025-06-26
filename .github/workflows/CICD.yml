@@ -16,6 +16,9 @@ jobs:
         run: echo I am building!
     
   DeployDev:
+    defaults:
+      run:
+        working-directory: ./    
     permissions: write-all    
     name: Development
     needs: [Build]
@@ -31,12 +34,13 @@ jobs:
         run: |
             echo I am testing! 
             pip install pytest pytest-html
-            pytest -s --verbose --junit-xml=junit-report.xml --capture=tee-sys
+            pytest -vv --junit-xml=junit-report.xml
       - name: Publish Test Results
         uses: EnricoMi/publish-unit-test-result-action/linux@v2
         if: (!cancelled())
         with:
           files: |
+            *.xml 
             **/*.xml 
 
   DeployStaging:
