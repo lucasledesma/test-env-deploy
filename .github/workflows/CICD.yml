@@ -35,9 +35,8 @@ jobs:
         uses: EnricoMi/publish-unit-test-result-action/linux@v2
         if: (!cancelled())
         with:
-          github_token: ${{github.token}}
           files: |
-            /home/runner/work/test-env-deploy/test-env-deploy/junit-report.xml   
+            *.xml   
 
   DeployStaging:
     name: Staging 
