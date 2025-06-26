@@ -16,9 +16,6 @@ jobs:
         run: echo I am building!
     
   DeployDev:
-    defaults:
-      run:
-        working-directory: ./    
     permissions: write-all    
     name: Development
     needs: [Build]
@@ -45,6 +42,7 @@ jobs:
 
   DeployStaging:
     name: Staging 
+    permissions: write-all    
     needs: [DeployDev]
     runs-on: ubuntu-latest
     environment: 
