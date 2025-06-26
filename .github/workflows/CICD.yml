@@ -53,8 +53,19 @@ jobs:
     steps:
       - name: Deploy
         run: echo I am deploying! 
+      - uses: actions/checkout@v4
       - name: Test
-        run: echo I am testing!   
+        run: |
+            echo I am testing! 
+            pip install pytest pytest-html
+            pytest -vv --junit-xml=junit-report.xml
+      - name: Publish Test Results
+        uses: EnricoMi/publish-unit-test-result-action/linux@v2
+        if: (!cancelled())
+        with:
+          files: |
+            *.xml 
+            **/*.xml 
          
   DeployProd:
     name: Production 
