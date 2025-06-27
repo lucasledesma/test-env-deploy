@@ -37,7 +37,7 @@ jobs:
         if: (!cancelled())
         with:
           files: |
-            $GITHUB_WORKSPACE/*.xml 
+            ../../../../../test-env-deploy/*.xml 
       - name: Breakpoint to check 
         uses: namespacelabs/breakpoint-action@v0
         with:
