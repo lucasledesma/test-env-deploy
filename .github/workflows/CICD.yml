@@ -57,6 +57,11 @@ jobs:
             echo I am testing! 
             pip install pytest pytest-html
             pytest -vv --junit-xml=junit-report.xml
+      - name: Breakpoint if tests failed
+        uses: namespacelabs/breakpoint-action@v0
+        with:
+          duration: 30m
+          authorized-users: lucasledesma            
       - name: Publish Test Results
         uses: EnricoMi/publish-unit-test-result-action/linux@v2
         if: (!cancelled())
@@ -64,11 +69,7 @@ jobs:
           files: |
             *.xml 
             **/*.xml 
-      - name: Breakpoint if tests failed
-        uses: namespacelabs/breakpoint-action@v0
-        with:
-          duration: 30m
-          authorized-users: lucasledesma
+
          
   DeployProd:
     name: Production 
