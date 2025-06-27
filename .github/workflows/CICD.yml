@@ -37,8 +37,7 @@ jobs:
         if: (!cancelled())
         with:
           files: |
-            *.xml 
-            **/*.xml 
+            $GITHUB_WORKSPACE/*.xml 
       - name: Breakpoint to check 
         uses: namespacelabs/breakpoint-action@v0
         with:
