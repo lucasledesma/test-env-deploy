@@ -37,7 +37,7 @@ jobs:
         if: (!cancelled())
         with:
           files: |
-            ../../../../../test-env-deploy/test-env-deploy/*.xml 
+            ${GITHUB_WORKSPACE}/*.xml 
       - name: Breakpoint to check 
         uses: namespacelabs/breakpoint-action@v0
         with:
@@ -66,7 +66,9 @@ jobs:
         if: (!cancelled())
         with:
           files: |
-            ../../../../../test-env-deploy/test-env-deploy/*.xml 
+            *.xml 
+            **/*.xml 
+
          
   DeployProd:
     name: Production 
