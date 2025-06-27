@@ -32,17 +32,12 @@ jobs:
             echo I am testing! 
             pip install pytest pytest-html
             pytest -vv --junit-xml=junit-report.xml
-      - name: Copy Test Results
-        if: (!cancelled())
-        run: |
-            cp -Lpr /home/runner/work/test-env-deploy/test-env-deploy/junit-report.xml test-results/junit-report.xml
-        shell: bash            
       - name: Publish Test Results
         uses: EnricoMi/publish-unit-test-result-action/linux@v2
         if: (!cancelled())
         with:
           files: |
-            test-results/**/*.xml
+            junit-report.xml
       - name: Breakpoint to check 
         uses: namespacelabs/breakpoint-action@v0
         with:
