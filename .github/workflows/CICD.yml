@@ -38,11 +38,11 @@ jobs:
         with:
           files: |
             junit-report.xml
-      - name: Breakpoint to check 
-        uses: namespacelabs/breakpoint-action@v0
-        with:
-          duration: 30m
-          authorized-users: lucasledesma                      
+    #   - name: Breakpoint to check 
+    #     uses: namespacelabs/breakpoint-action@v0
+    #     with:
+    #       duration: 30m
+    #       authorized-users: lucasledesma                      
 
   DeployStaging:
     name: Staging 
@@ -66,9 +66,7 @@ jobs:
         if: (!cancelled())
         with:
           files: |
-            *.xml 
-            **/*.xml 
-
+            junit-report.xml
          
   DeployProd:
     name: Production 
