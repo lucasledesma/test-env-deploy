@@ -1,0 +1,46 @@
+name: Deploy to Production
+
+on:
+  push:
+    branches: [ production ]
+  workflow_dispatch:
+
+jobs:
+  Build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Build
+        run: echo Building application for Production environment!
+    
+  DeployProduction:
+    permissions: write-all    
+    name: Production
+    needs: [Build]
+    runs-on: ubuntu-latest
+    environment: 
+      name: Production
+      url: 'https://agility-community.b-yond.com/'
+    steps:
+      - uses: actions/checkout@v4
+      - name: Deploy
+        run: echo Deploying to Production environment! 
+      
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install pytest pytest-html
+          
+      - name: Run tests
+        run: |
+          pytest -vv --junit-xml=junit-report.xml
+          
+      - name: Publish Test Results
+        uses: EnricoMi/publish-unit-test-result-action/linux@v2
+        if: (!cancelled())
+        with:
+          files: |
+            junit-report.xml
+            
+      - name: Post-deployment verification
+        run: echo Verifying Production deployment was successful!
