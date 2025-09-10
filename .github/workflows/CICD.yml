@@ -1,52 +1,80 @@
 name: CI + CD
 
-on:
-  push:
-    branches: [ main ]
-  pull_request:
-    branches: [ main ]
-  workflow_dispatch:
+# on:
+#   push:
+#     branches: [ main ]
+#   pull_request:
+#     branches: [ main ]
+#   workflow_dispatch:
 
 jobs:
   Build:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
-
-      - name: Compile
-        run: echo Hello, world!
+      - uses: actions/checkout@v4
+      - name: Build
+        run: echo I am building!
     
   DeployDev:
-    name: Deploy to Dev 
-    if: github.event_name == 'pull_request'
+    permissions: write-all    
+    name: Development
     needs: [Build]
     runs-on: ubuntu-latest
     environment: 
       name: Development
-      url: 'http://dev.myapp.com'
+      url: 'https://agility-dev.b-yond.com/'
     steps:
       - name: Deploy
         run: echo I am deploying! 
-    
+      - uses: actions/checkout@v4
+      - name: Test
+        run: |
+            echo I am testing! 
+            pip install pytest pytest-html
+            pytest -vv --junit-xml=junit-report.xml
+      - name: Publish Test Results
+        uses: EnricoMi/publish-unit-test-result-action/linux@v2
+        if: (!cancelled())
+        with:
+          files: |
+            junit-report.xml
+    #   - name: Breakpoint to check 
+    #     uses: namespacelabs/breakpoint-action@v0
+    #     with:
+    #       duration: 30m
+    #       authorized-users: lucasledesma                      
+
   DeployStaging:
-    name: Deploy to Staging 
-    if: github.event.ref == 'refs/heads/main'
-    needs: [Build]
+    name: Staging 
+    permissions: write-all    
+    needs: [DeployDev]
     runs-on: ubuntu-latest
     environment: 
       name: Staging
-      url: 'http://test.myapp.com'
+      url: 'https://agility-stg.b-yond.com/'
     steps:
       - name: Deploy
         run: echo I am deploying! 
-            
+      - uses: actions/checkout@v4
+      - name: Test
+        run: |
+            echo I am testing! 
+            pip install pytest pytest-html
+            pytest -vv --junit-xml=junit-report.xml  
+      - name: Publish Test Results
+        uses: EnricoMi/publish-unit-test-result-action/linux@v2
+        if: (!cancelled())
+        with:
+          files: |
+            junit-report.xml
+         
   DeployProd:
-    name: Deploy to Production 
+    name: Production 
     needs: [DeployStaging]
     runs-on: ubuntu-latest
     environment: 
       name: Production
-      url: 'http://www.myapp.com'
+      url: 'https://agility-community.b-yond.com/'
     steps:
       - name: Deploy
         run: echo I am deploying! 
