@@ -1,0 +1,21 @@
+name: Test deployment trigger
+
+on:
+  deployment_status:
+
+jobs:
+  check:
+    if: |
+      github.event.deployment_status.state == 'success' &&
+      github.event.deployment.environment == 'Development' &&
+      github.event.deployment.ref == 'main'
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Hello World
+        run: echo "Hello World"
+
+      
+
+
+
